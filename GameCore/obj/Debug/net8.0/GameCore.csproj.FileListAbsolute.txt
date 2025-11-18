@@ -1,0 +1,12 @@
+D:\Code Projects\CoTuLenh\GameCore\bin\Debug\net8.0\GameCore.deps.json
+D:\Code Projects\CoTuLenh\GameCore\bin\Debug\net8.0\GameCore.dll
+D:\Code Projects\CoTuLenh\GameCore\bin\Debug\net8.0\GameCore.pdb
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\GameCore.GeneratedMSBuildEditorConfig.editorconfig
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\GameCore.AssemblyInfoInputs.cache
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\GameCore.AssemblyInfo.cs
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\GameCore.csproj.CoreCompileInputs.cache
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\GameCore.sourcelink.json
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\GameCore.dll
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\refint\GameCore.dll
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\GameCore.pdb
+D:\Code Projects\CoTuLenh\GameCore\obj\Debug\net8.0\ref\GameCore.dll

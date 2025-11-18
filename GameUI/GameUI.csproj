@@ -8,4 +8,54 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="Assets\pieces_png\board.png" />
+      <Resource Include="Assets\pieces_png\board.png" />
+      <None Remove="Assets\pieces_png\airforce_blue.png" />
+      <Resource Include="Assets\pieces_png\airforce_blue.png" />
+      <None Remove="Assets\pieces_png\airforce_red.png" />
+      <Resource Include="Assets\pieces_png\airforce_red.png" />
+      <None Remove="Assets\pieces_png\antiair_blue.png" />
+      <Resource Include="Assets\pieces_png\antiair_blue.png" />
+      <None Remove="Assets\pieces_png\antiair_red.png" />
+      <Resource Include="Assets\pieces_png\antiair_red.png" />
+      <None Remove="Assets\pieces_png\artillery_blue.png" />
+      <Resource Include="Assets\pieces_png\artillery_blue.png" />
+      <None Remove="Assets\pieces_png\artillery_red.png" />
+      <Resource Include="Assets\pieces_png\artillery_red.png" />
+      <None Remove="Assets\pieces_png\commander_blue.png" />
+      <Resource Include="Assets\pieces_png\commander_blue.png" />
+      <None Remove="Assets\pieces_png\commander_red.png" />
+      <Resource Include="Assets\pieces_png\commander_red.png" />
+      <None Remove="Assets\pieces_png\engineer_blue.png" />
+      <Resource Include="Assets\pieces_png\engineer_blue.png" />
+      <None Remove="Assets\pieces_png\engineer_red.png" />
+      <Resource Include="Assets\pieces_png\engineer_red.png" />
+      <None Remove="Assets\pieces_png\headquarter_blue.png" />
+      <Resource Include="Assets\pieces_png\headquarter_blue.png" />
+      <None Remove="Assets\pieces_png\headquarter_red.png" />
+      <Resource Include="Assets\pieces_png\headquarter_red.png" />
+      <None Remove="Assets\pieces_png\infantry_blue.png" />
+      <Resource Include="Assets\pieces_png\infantry_blue.png" />
+      <None Remove="Assets\pieces_png\infantry_red.png" />
+      <Resource Include="Assets\pieces_png\infantry_red.png" />
+      <None Remove="Assets\pieces_png\militia_blue.png" />
+      <Resource Include="Assets\pieces_png\militia_blue.png" />
+      <None Remove="Assets\pieces_png\militia_red.png" />
+      <Resource Include="Assets\pieces_png\militia_red.png" />
+      <None Remove="Assets\pieces_png\missile_blue.png" />
+      <Resource Include="Assets\pieces_png\missile_blue.png" />
+      <None Remove="Assets\pieces_png\missile_red.png" />
+      <Resource Include="Assets\pieces_png\missile_red.png" />
+      <None Remove="Assets\pieces_png\navy_blue.png" />
+      <Resource Include="Assets\pieces_png\navy_blue.png" />
+      <None Remove="Assets\pieces_png\navy_red.png" />
+      <Resource Include="Assets\pieces_png\navy_red.png" />
+      <None Remove="Assets\pieces_png\tank_blue.png" />
+      <Resource Include="Assets\pieces_png\tank_blue.png" />
+      <!-- Newly added red tank icon -->
+      <None Remove="Assets\pieces_png\tank_red.png" />
+      <Resource Include="Assets\pieces_png\tank_red.png" />
+    </ItemGroup>
+
 </Project>

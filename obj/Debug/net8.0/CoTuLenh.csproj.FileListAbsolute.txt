@@ -1,0 +1,15 @@
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\CoTuLenh.GeneratedMSBuildEditorConfig.editorconfig
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\CoTuLenh.AssemblyInfoInputs.cache
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\CoTuLenh.AssemblyInfo.cs
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\CoTuLenh.csproj.CoreCompileInputs.cache
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\CoTuLenh.sourcelink.json
+D:\Code Projects\CoTuLenh\bin\Debug\net8.0\CoTuLenh.exe
+D:\Code Projects\CoTuLenh\bin\Debug\net8.0\CoTuLenh.deps.json
+D:\Code Projects\CoTuLenh\bin\Debug\net8.0\CoTuLenh.runtimeconfig.json
+D:\Code Projects\CoTuLenh\bin\Debug\net8.0\CoTuLenh.dll
+D:\Code Projects\CoTuLenh\bin\Debug\net8.0\CoTuLenh.pdb
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\CoTuLenh.dll
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\refint\CoTuLenh.dll
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\CoTuLenh.pdb
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\CoTuLenh.genruntimeconfig.cache
+D:\Code Projects\CoTuLenh\obj\Debug\net8.0\ref\CoTuLenh.dll

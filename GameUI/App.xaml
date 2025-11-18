@@ -1,9 +1,8 @@
 ﻿<Application x:Class="GameUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GameUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Converters can also be declared in Window resources; keep app resources minimal for now -->
     </Application.Resources>
 </Application>

@@ -5,10 +5,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <EnableDefaultItems>false</EnableDefaultItems>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="GameTest\" />
+        <Compile Include="Program.cs" />
+        <None Include="global.json" />
     </ItemGroup>
 
 </Project>

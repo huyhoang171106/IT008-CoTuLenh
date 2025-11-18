@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\RiderProjects\\IT008-CoTuLenh\\src\\CoTuLenh\\GameTest\\GameTest.csproj": {}
+    "D:\\Code Projects\\CoTuLenh\\GameTest\\GameTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\RiderProjects\\IT008-CoTuLenh\\src\\CoTuLenh\\GameTest\\GameTest.csproj": {
+    "D:\\Code Projects\\CoTuLenh\\GameTest\\GameTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\RiderProjects\\IT008-CoTuLenh\\src\\CoTuLenh\\GameTest\\GameTest.csproj",
+        "projectUniqueName": "D:\\Code Projects\\CoTuLenh\\GameTest\\GameTest.csproj",
         "projectName": "GameTest",
-        "projectPath": "C:\\Users\\admin\\RiderProjects\\IT008-CoTuLenh\\src\\CoTuLenh\\GameTest\\GameTest.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\RiderProjects\\IT008-CoTuLenh\\src\\CoTuLenh\\GameTest\\obj\\",
+        "projectPath": "D:\\Code Projects\\CoTuLenh\\GameTest\\GameTest.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Code Projects\\CoTuLenh\\GameTest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\VSStudioShared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -82,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\admin\\.dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\Admin\\.dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
