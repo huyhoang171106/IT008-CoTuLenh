@@ -98,3 +98,6 @@ D:\Code Projects\CoTuLenh\GameTest\obj\Debug\net8.0\refint\GameTest.dll
 D:\Code Projects\CoTuLenh\GameTest\obj\Debug\net8.0\GameTest.pdb
 D:\Code Projects\CoTuLenh\GameTest\obj\Debug\net8.0\GameTest.genruntimeconfig.cache
 D:\Code Projects\CoTuLenh\GameTest\obj\Debug\net8.0\ref\GameTest.dll
+d:\Code Projects\CoTuLenh\GameTest\bin\Debug\net8.0\CoverletSourceRootsMapping_GameTest
+d:\Code Projects\CoTuLenh\GameTest\bin\Debug\net8.0\GameCore.dll
+d:\Code Projects\CoTuLenh\GameTest\bin\Debug\net8.0\GameCore.pdb
