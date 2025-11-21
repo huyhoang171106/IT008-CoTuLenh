@@ -1,0 +1,9 @@
+﻿# Rider / Visual Studio ignore
+.idea/
+.vs/
+*.user
+*.suo
+
+# Build folders ignore
+[Bb]in/
+[Oo]bj/
