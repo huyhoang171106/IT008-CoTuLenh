@@ -23,11 +23,11 @@ public static class MovementRules
         };
     }
 
-    // Ô bị đe dọa (có thể khác di chuyển thực tế đối với một số quân nếu cần sau này)
+    // Ô bị đe dọa (có thể khác di chuyển thực tế đối với một số quân). Hiện giữ nguyên: pháo/rocket chỉ đe dọa trong phạm vi di chuyển.
     public static IEnumerable<Position> GenerateThreatSquares(Board board, Position from, Piece piece)
     {
-        // Với hiện tại: giống moves cho hầu hết, trừ HQ (không đe dọa), AirForce vẫn same
         if (piece.Type == PieceType.Headquarter) return Enumerable.Empty<Position>();
+        // Tương lai: nếu pháo/rocket có tầm bắn vượt quá không di chuyển, tách logic ở đây.
         return GenerateMoves(board, from, piece);
     }
 
@@ -43,7 +43,7 @@ public static class MovementRules
 
     private static IEnumerable<Position> InfantryMoves(Board board, Position from, Piece piece)
     {
-        // Bộ binh: di chuyển 1 ô 4 hướng (N,S,E,W); ăn quân nếu ô đó có địch; không double-step, không bắt chéo
+        // Bộ binh: di chuyển 1 ô 4 hướng (N,S,E,W); ăn quân nếu ô đó có địch
         Direction[] dirs = { Direction.North, Direction.South, Direction.East, Direction.West };
         foreach (var d in dirs)
         {
@@ -57,7 +57,6 @@ public static class MovementRules
 
     private static IEnumerable<Position> EngineerMoves(Board board, Position from, Piece piece)
     {
-        // Công binh: 1 ô bất kỳ, giống Commander hiện tại
         return OneStepAllDirections(board, from, piece);
     }
 
@@ -98,13 +97,13 @@ public static class MovementRules
 
     private static IEnumerable<Position> AirForceMoves(Board board, Position from, Piece piece)
     {
-        // Không quân: nhảy đến bất kỳ ô trong hình vuông 2 bước (Manhattan <=2), bỏ qua quân cản, có thể ăn quân
+        // Không quân: nhảy đến bất kỳ ô trong hình vuông 2 bước (Manhattan <=2), bỏ qua quân cản
         for (int dr=-2; dr<=2; dr++)
         {
             for (int dc=-2; dc<=2; dc++)
             {
-                if (Math.Abs(dr) + Math.Abs(dc) == 0) continue;
-                if (Math.Abs(dr) + Math.Abs(dc) > 2) continue;
+                if (System.Math.Abs(dr) + System.Math.Abs(dc) == 0) continue;
+                if (System.Math.Abs(dr) + System.Math.Abs(dc) > 2) continue;
                 var p = new Position(from.Row + dr, from.Column + dc);
                 if (board.IsInside(p) && !IsFriendly(board, p, piece.Color)) yield return p;
             }
@@ -113,7 +112,6 @@ public static class MovementRules
 
     private static IEnumerable<Position> NavyMoves(Board board, Position from, Piece piece)
     {
-        // Hải quân: tạm thời giống Tank nhưng thêm chéo 1 ô
         foreach (var p in TankMoves(board, from, piece)) yield return p;
         Direction[] diag = { Direction.NorthEast, Direction.NorthWest, Direction.SouthEast, Direction.SouthWest };
         foreach (var d in diag)

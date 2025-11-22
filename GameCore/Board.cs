@@ -18,6 +18,9 @@ public class Board
     // Lịch sử nước đi đơn giản
     public List<MoveRecord> MoveHistory { get; } = new();
 
+    // Người chơi hiện tại (mặc định Đỏ đi trước)
+    public Player ActivePlayer { get; private set; } = Player.Red;
+
     public bool IsInside(Position pos) => pos.Row >= 0 && pos.Row < Rows && pos.Column >= 0 && pos.Column < Columns;
     public Piece? GetPieceAt(Position pos) => _pieces.TryGetValue(pos, out var p) ? p : null;
 
@@ -33,25 +36,37 @@ public class Board
 
     public bool TryMove(Position from, Position to)
     {
+        if (from == to) return false;
         if (!_pieces.ContainsKey(from)) return false;
         var piece = _pieces[from];
+        // Kiểm tra quyền sở hữu lượt
+        if (piece.Color != ActivePlayer) return false;
         // Kiểm tra nước đi hợp lệ với an toàn tư lệnh
         var legal = GetLegalMoves(from).ToHashSet();
         if (!legal.Contains(to)) return false;
         if (!IsCommanderSafeAfter(from, to)) return false;
         var captured = GetPieceAt(to);
+        var originalHasMoved = piece.HasMoved;
         _pieces.Remove(from);
         _pieces[to] = piece;
         piece.HasMoved = true;
-        MoveHistory.Add(new MoveRecord(from, to, piece, captured));
+        MoveHistory.Add(new MoveRecord(from, to, piece, captured, originalHasMoved));
+        SwitchTurn();
         return true;
+    }
+
+    private void SwitchTurn()
+    {
+        ActivePlayer = ActivePlayer.Opponent();
     }
 
     public IEnumerable<Position> GetLegalMoves(Position from)
     {
         if (!_pieces.ContainsKey(from)) return Enumerable.Empty<Position>();
         var piece = _pieces[from];
-        return MovementRules.GenerateMoves(this, from, piece).Where(p => CanEnter(p, piece));
+        // Chỉ sinh nước đi cơ sở (không lọc Commander an toàn ở đây)
+        return MovementRules.GenerateMoves(this, from, piece)
+            .Where(p => CanEnter(p, piece) && !IsFriendly(p, piece.Color) && IsCommanderSafeAfter(from, p));
     }
 
     // Kiểm tra có phải ô biển / sông
@@ -85,6 +100,7 @@ public class Board
         {
             b._pieces[new Position(kv.Key.Row, kv.Key.Column)] = kv.Value.Copy();
         }
+        b.ActivePlayer = ActivePlayer; // sao chép lượt hiện tại
         // MoveHistory intentionally not cloned for simulation
         return b;
     }
@@ -98,9 +114,8 @@ public class Board
         sim.RemovePiece(to); // capture if enemy
         sim.PlacePiece(new Position(to.Row, to.Column), moving);
         // Tìm vị trí tư lệnh của màu di chuyển
-        var commanderPos = sim.Pieces.FirstOrDefault(kv => kv.Value.Type == PieceType.Commander && kv.Value.Color == moving.Color).Key;
-        if (commanderPos == null) return true; // nếu chưa đặt tư lệnh
-        // Ô bị đe dọa bởi đối thủ
+        Position? commanderPos = sim.Pieces.FirstOrDefault(kv => kv.Value.Type == PieceType.Commander && kv.Value.Color == moving.Color).Key;
+        if (commanderPos is null) return true; // nếu chưa đặt tư lệnh
         var threats = sim.GetThreatenedSquares(moving.Color.Opponent());
         return !threats.Contains(commanderPos);
     }
@@ -117,6 +132,72 @@ public class Board
         }
         return set;
     }
+
+    // Kiểm tra đang bị chiếu
+    public bool IsInCheck(Player player)
+    {
+        Position? commanderPos = _pieces.FirstOrDefault(kv => kv.Value.Type == PieceType.Commander && kv.Value.Color == player).Key;
+        if (commanderPos is null) return false; // chưa đặt tư lệnh => không tính
+        var threats = GetThreatenedSquares(player.Opponent());
+        return threats.Contains(commanderPos);
+    }
+
+    // Lấy tất cả nước đi hợp lệ của một người chơi (phục vụ AI / kiểm tra hết nước)
+    public Dictionary<Position, List<Position>> GetAllLegalMoves(Player player)
+    {
+        var dict = new Dictionary<Position, List<Position>>();
+        foreach (var kv in _pieces.Where(kv => kv.Value.Color == player))
+        {
+            var from = kv.Key;
+            var moves = MovementRules.GenerateMoves(this, from, kv.Value)
+                .Where(p => CanEnter(p, kv.Value) && !IsFriendly(p, player) && IsCommanderSafeAfter(from, p))
+                .ToList();
+            if (moves.Count > 0) dict[from] = moves;
+        }
+        return dict;
+    }
+
+    public bool HasAnyLegalMove(Player player) => GetAllLegalMoves(player).Any();
+
+    public GameStatus EvaluateStatus(Player player)
+    {
+        var inCheck = IsInCheck(player);
+        var hasMove = HasAnyLegalMove(player);
+        if (inCheck && !hasMove) return GameStatus.Checkmate;
+        if (!inCheck && !hasMove) return GameStatus.Stalemate;
+        if (inCheck) return GameStatus.Check;
+        return GameStatus.Normal;
+    }
+
+    // Hoàn tác nước đi cuối (để AI thử nghiệm) trả về true nếu thành công
+    public bool UndoLastMove()
+    {
+        if (MoveHistory.Count == 0) return false;
+        var last = MoveHistory[^1];
+        MoveHistory.RemoveAt(MoveHistory.Count - 1);
+        // Di chuyển quân về vị trí cũ
+        _pieces.Remove(last.To);
+        _pieces[last.From] = last.Piece;
+        last.Piece.HasMoved = last.OriginalHasMoved;
+        if (last.Captured != null)
+        {
+            // Khôi phục quân bị ăn
+            _pieces[last.To] = last.Captured;
+        }
+        // Đảo lượt lại
+        ActivePlayer = ActivePlayer.Opponent();
+        return true;
+    }
+
+    private bool IsFriendly(Position pos, Player color) => GetPieceAt(pos)?.Color == color;
 }
 
-public record MoveRecord(Position From, Position To, Piece Piece, Piece? Captured);
+public enum GameStatus
+{
+    Normal,
+    Check,
+    Checkmate,
+    Stalemate
+}
+
+public record MoveRecord(Position From, Position To, Piece Piece, Piece? Captured, bool OriginalHasMoved);
