@@ -1,9 +1,86 @@
-﻿# Rider / Visual Studio ignore
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore user-specific files
 .idea/
 .vs/
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
+launchSettings.json
 
-# Build folders ignore
-[Bb]in/
-[Oo]bj/
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore environment files
+.env
+
+# Ignore logs
+*.log
+
+# Ignore Docker artifacts
+docker-compose.override.yml
+docker-compose.*
+*.db
+
+# Ignore EF Core migrations snapshots
+Migrations/
+
+# Ignore node_modules for mobile frontend
+
+# Ignore Flutter build outputs
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock
+
+# Ignore React Native artifacts
+.expo/
+*.keystore
+
+# Ignore coverage reports
+coverage/
+TestResults/
+.fake
+
+node_modules/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# macOS
+.DS_Store
+
+# Temporary files created by Metro to check the health of the file watcher
+.metro-health-check*
+
+# Expo
+expo-env.d.ts
+
+# Native
+.kotlin/
+
+# debug
+yarn-debug.*
+yarn-error.*
+
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+# Default ignored files
+/shelf/
+/workspace.xml
+appsettings.json
