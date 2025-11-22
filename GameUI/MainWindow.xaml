@@ -1,7 +1,7 @@
 ﻿<Window x:Class="GameUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Cờ Tư Lệnh" Width="1920" Height="1080"
+        Title="Cờ Tư Lệnh" Width="1600" Height="900"
         WindowStartupLocation="CenterScreen"
         Background="#222"
         Focusable="True"
