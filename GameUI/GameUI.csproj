@@ -58,4 +58,8 @@
       <Resource Include="Assets\pieces_png\tank_red.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\GameCore\GameCore.csproj" />
+    </ItemGroup>
+
 </Project>
