@@ -24,4 +24,13 @@
         <ProjectReference Include="..\GameCore\GameCore.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\CoTuLenh.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
+    </ItemGroup>
+
 </Project>
