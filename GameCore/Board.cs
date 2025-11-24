@@ -190,6 +190,43 @@ public class Board
     }
 
     private bool IsFriendly(Position pos, Player color) => GetPieceAt(pos)?.Color == color;
+
+    // Khởi tạo vị trí quân cờ ban đầu (định nghĩa chuẩn cho ván mới)
+    public void ResetToInitialPosition()
+    {
+        _pieces.Clear();
+        ActivePlayer = Player.Red;
+        void Add(int x, int viewY, Piece piece)
+        {
+            int row = Rows - 1 - viewY; // map từ toạ độ view (0 ở đáy) sang hàng core (0 ở đỉnh)
+            int col = x;
+            _pieces[new Position(row, col)] = piece;
+        }
+        // Đỏ (dưới)
+        Add(6,0, new Commander(Player.Red));
+        Add(3,4, new Engineer(Player.Red)); Add(8,4, new Engineer(Player.Red));
+        Add(1,1, new Navy(Player.Red));
+        Add(4,1, new AirForce(Player.Red));
+        Add(5,1, new Headquarter(Player.Red));
+        Add(7,1, new Headquarter(Player.Red));
+        Add(8,1, new AirForce(Player.Red));
+        Add(3,2, new AntiAircraftGun(Player.Red)); Add(6,2, new Rocket(Player.Red)); Add(9,2, new AntiAircraftGun(Player.Red));
+        Add(2,3, new Navy(Player.Red));
+        Add(4,3, new Artillery(Player.Red)); Add(5,3, new Tank(Player.Red)); Add(7,3, new Tank(Player.Red)); Add(8,3, new Artillery(Player.Red));
+        Add(2,4, new Infantry(Player.Red)); Add(6,4, new Militia(Player.Red)); Add(10,4, new Infantry(Player.Red));
+        // Xanh (trên)
+        Add(2,7, new Infantry(Player.Blue)); Add(6,7, new Militia(Player.Blue)); Add(10,7, new Infantry(Player.Blue));
+        Add(2,8, new Navy(Player.Blue));
+        Add(4,8, new Artillery(Player.Blue)); Add(5,8, new Tank(Player.Blue)); Add(7,8, new Tank(Player.Blue)); Add(8,8, new Artillery(Player.Blue));
+        Add(3,9, new AntiAircraftGun(Player.Blue)); Add(6,9, new Rocket(Player.Blue)); Add(9,9, new AntiAircraftGun(Player.Blue));
+        Add(1,10, new Navy(Player.Blue));
+        Add(4,10, new AirForce(Player.Blue));
+        Add(5,10, new Headquarter(Player.Blue));
+        Add(7,10, new Headquarter(Player.Blue));
+        Add(8,10, new AirForce(Player.Blue));
+        Add(6,11, new Commander(Player.Blue));
+        Add(3,7, new Engineer(Player.Blue)); Add(8,7, new Engineer(Player.Blue));
+    }
 }
 
 public enum GameStatus

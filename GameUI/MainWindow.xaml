@@ -16,8 +16,9 @@
                    Source="pack://application:,,,/GameUI;component/Assets/pieces_png/board.png"
                    Stretch="Fill" Panel.ZIndex="0"/>
             <Canvas x:Name="GridOverlayCanvas" Panel.ZIndex="5" IsHitTestVisible="False"/>
-            <Canvas x:Name="HighlightCanvas" Panel.ZIndex="7" Background="Transparent"/>
-            <Canvas x:Name="PieceCanvas" Panel.ZIndex="10" Background="Transparent"/>
+            <!-- HighlightCanvas above PieceCanvas so move targets render over pieces for capture indication -->
+            <Canvas x:Name="HighlightCanvas" Panel.ZIndex="15" />
+            <Canvas x:Name="PieceCanvas" Panel.ZIndex="10" />
             <Border x:Name="DebugPanel" Background="#55000088" CornerRadius="4" Padding="6" Margin="8" Panel.ZIndex="20"
                     HorizontalAlignment="Left" VerticalAlignment="Top"
                     Visibility="{Binding ShowDebugPanel, Converter={StaticResource BoolToVis}}">

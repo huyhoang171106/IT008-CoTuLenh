@@ -22,6 +22,7 @@ namespace GameUI
             DataContext = new BoardViewModel();
             Loaded += (_, _) => { VM.DetectBoardLines(BoardImage.Source as BitmapSource); RenderAll(); };
             SizeChanged += (_, _) => { VM.DetectBoardLines(BoardImage.Source as BitmapSource); RenderAll(); };
+            // Removed HighlightCanvas fallback click handler to avoid intercepting selection
         }
 
         private void RenderAll()
@@ -60,11 +61,16 @@ namespace GameUI
         }
         private void MoveTarget_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender is FrameworkElement fe && fe.Tag is ValueTuple<int,int> tup)
+            e.Handled = true;
+            if (sender is FrameworkElement fe)
             {
-                if (VM.TryMoveSelectedTo(tup.Item1, tup.Item2))
+                if (fe.Tag is ValueTuple<int,int> tup)
                 {
-                    RenderAll();
+                    if (VM.TryMoveSelectedTo(tup.Item1, tup.Item2)) { RenderAll(); return; }
+                }
+                else if (fe.Tag is System.Tuple<int,int> oldTup)
+                {
+                    if (VM.TryMoveSelectedTo(oldTup.Item1, oldTup.Item2)) { RenderAll(); return; }
                 }
             }
         }
@@ -72,6 +78,20 @@ namespace GameUI
         {
             if (sender is FrameworkElement fe && fe.Tag is PieceViewModel pvm)
             {
+                // If a piece is already selected and we click another square containing an enemy piece that is a legal move -> perform capture
+                if (VM.SelectedPiece != null && VM.SelectedPiece != pvm)
+                {
+                    bool isLegalCaptureTarget = VM.LegalMoves.Any(m => m.x == pvm.X && m.y == pvm.Y);
+                    if (isLegalCaptureTarget)
+                    {
+                        if (VM.TryMoveSelectedTo(pvm.X, pvm.Y))
+                        {
+                            RenderAll();
+                            return; // capture completed
+                        }
+                    }
+                }
+                // Normal selection / deselection logic
                 if (VM.SelectedPiece == pvm)
                 {
                     VM.ClearSelectionCommand.Execute(null);

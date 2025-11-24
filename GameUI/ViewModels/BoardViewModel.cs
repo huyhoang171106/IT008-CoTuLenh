@@ -21,6 +21,7 @@ namespace GameUI.ViewModels
         private int _gridYOffsetCells = 1; public int GridYOffsetCells { get => _gridYOffsetCells; set { if (SetProperty(ref _gridYOffsetCells, value)) UpdateDebugInfo(); } }
         private double _pieceScale = 1; public double PieceScale { get => _pieceScale; set { if (SetProperty(ref _pieceScale, value)) UpdateDebugInfo(); } }
         private string _debugInfo = string.Empty; public string DebugInfo { get => _debugInfo; private set => SetProperty(ref _debugInfo, value); }
+        private string _lastActionMessage = string.Empty; public string LastActionMessage { get => _lastActionMessage; set { if (SetProperty(ref _lastActionMessage, value)) UpdateDebugInfo(); } }
 
         public ObservableCollection<PieceViewModel> Pieces { get; } = new();
 
@@ -59,27 +60,31 @@ namespace GameUI.ViewModels
 
         private void SeedPieces()
         {
-            Pieces.Clear(); CoreBoard = new Board(); // re-init board
-            void Add(int vx,int vy,string code,bool red)
+            Pieces.Clear();
+            CoreBoard = new Board();
+            CoreBoard.ResetToInitialPosition();
+            foreach (var kv in CoreBoard.Pieces)
             {
-                var vm = new PieceViewModel{ X=vx, Y=vy, Code=code, IsRed=red }; Pieces.Add(vm);
-                var piece = CreateCorePiece(code, red ? Player.Red : Player.Blue);
-                var boardRow = ToBoardRow(vy); var boardCol = vx; CoreBoard.PlacePiece(new Position(boardRow, boardCol), piece);
+                var boardPos = kv.Key; var piece = kv.Value;
+                int x = boardPos.Column; int y = FromBoardRow(boardPos.Row);
+                string code = piece.Type switch
+                {
+                    PieceType.Commander => "commander",
+                    PieceType.Headquarter => "headquarter",
+                    PieceType.AirForce => "airforce",
+                    PieceType.Navy => "navy",
+                    PieceType.Rocket => "missile",
+                    PieceType.AntiAircraftGun => "antiair",
+                    PieceType.Tank => "tank",
+                    PieceType.Artillery => "artillery",
+                    PieceType.Infantry => "infantry",
+                    PieceType.Militia => "militia",
+                    PieceType.Engineer => "engineer",
+                    _ => "infantry"
+                };
+                bool isRed = piece.Color == Player.Red;
+                Pieces.Add(new PieceViewModel{ X=x, Y=y, Code=code, IsRed=isRed });
             }
-            // Red (bottom)
-            Add(6,0,"commander",true);
-            Add(3,4,"engineer",true); Add(8,4,"engineer",true); // newly added engineers
-            Add(1,1,"navy",true); Add(4,1,"airforce",true); Add(5,1,"headquarter",true); Add(7,1,"headquarter",true); Add(8,1,"airforce",true);
-            Add(3,2,"antiair",true); Add(6,2,"missile",true); Add(9,2,"antiair",true);
-            Add(2,3,"navy",true); Add(4,3,"artillery",true); Add(5,3,"tank",true); Add(7,3,"tank",true); Add(8,3,"artillery",true);
-            Add(2,4,"infantry",true); Add(6,4,"militia",true); Add(10,4,"infantry",true);
-            // Blue (top)
-            Add(2,7,"infantry",false); Add(6,7,"militia",false); Add(10,7,"infantry",false);
-            Add(2,8,"navy",false); Add(4,8,"artillery",false); Add(5,8,"tank",false); Add(7,8,"tank",false); Add(8,8,"artillery",false);
-            Add(3,9,"antiair",false); Add(6,9,"missile",false); Add(9,9,"antiair",false);
-            Add(1,10,"navy",false); Add(4,10,"airforce",false); Add(5,10,"headquarter",false); Add(7,10,"headquarter",false); Add(8,10,"airforce",false);
-            Add(6,11,"commander",false);
-            Add(3,7,"engineer",false); Add(8,7,"engineer",false); // newly added engineers
         }
         private CorePiece CreateCorePiece(string code, Player color) => code switch
         {
@@ -103,27 +108,31 @@ namespace GameUI.ViewModels
         {
             if (SelectedPiece == null)
             {
-                LegalMoves = new List<(int x,int y)>(); UpdateDebugInfo(); return;
+                LegalMoves = new List<(int x,int y)>(); LastActionMessage = "Không có quân nào được chọn"; UpdateDebugInfo(); return;
             }
             var boardPos = new Position(ToBoardRow(SelectedPiece.Y), SelectedPiece.X);
             var corePiece = CoreBoard.GetPieceAt(boardPos);
-            if (corePiece == null || corePiece.Color != CoreBoard.ActivePlayer)
+            if (corePiece == null)
             {
-                LegalMoves = new List<(int x,int y)>(); UpdateDebugInfo(); return;
+                LegalMoves = new List<(int x,int y)>(); LastActionMessage = "Không tìm thấy quân trong CoreBoard tại vị trí"; UpdateDebugInfo(); return;
+            }
+            if (corePiece.Color != CoreBoard.ActivePlayer)
+            {
+                LegalMoves = new List<(int x,int y)>(); LastActionMessage = "Đang cố chọn quân không tới lượt"; UpdateDebugInfo(); return;
             }
             var moves = CoreBoard.GetLegalMoves(boardPos).Select(p => (p.Column, FromBoardRow(p.Row))).ToList();
-            LegalMoves = moves;
+            LegalMoves = moves; LastActionMessage = $"Tính {moves.Count} nước đi";
             UpdateDebugInfo();
         }
 
         public bool TryMoveSelectedTo(int targetX,int targetY)
         {
-            if (SelectedPiece == null) return false;
-            if (!LegalMoves.Any(m => m.x==targetX && m.y==targetY)) return false;
+            if (SelectedPiece == null) { LastActionMessage = "Chưa chọn quân"; return false; }
+            if (!LegalMoves.Any(m => m.x==targetX && m.y==targetY)) { LastActionMessage = "Ô được click không nằm trong LegalMoves"; return false; }
             var fromBoard = new Position(ToBoardRow(SelectedPiece.Y), SelectedPiece.X);
             var toBoard = new Position(ToBoardRow(targetY), targetX);
             var captured = CoreBoard.GetPieceAt(toBoard);
-            if (!CoreBoard.TryMove(fromBoard, toBoard)) return false;
+            if (!CoreBoard.TryMove(fromBoard, toBoard)) { LastActionMessage = "CoreBoard.TryMove trả về false"; return false; }
             // update viewmodel piece
             // remove captured vm if exists
             if (captured != null)
@@ -133,6 +142,7 @@ namespace GameUI.ViewModels
             }
             SelectedPiece.X = targetX; SelectedPiece.Y = targetY;
             SelectedPiece = null; LegalMoves = new List<(int x,int y)>();
+            LastActionMessage = "Di chuyển thành công";
             UpdateDebugInfo();
             return true;
         }
@@ -227,7 +237,7 @@ namespace GameUI.ViewModels
             double cellW = GridXs!=null? (GridXs.Last()-GridXs.First())/MaxX:0;
             double cellH = GridYs!=null? (GridYs.Last()-GridYs.First())/MaxY:0;
             double yOffsetPx = GridYOffsetCells * cellH;
-            DebugInfo = $"Detect:{status} X:{GridXs?.Count ?? 0} Y:{GridYs?.Count ?? 0}\nLumTh:{LineLumThreshold} FracTh:{LineFractionThreshold:0.00}\nCellW:{cellW:0.0} CellH:{cellH:0.0}\nGridYOffsetCells:{GridYOffsetCells} ({yOffsetPx:0.0}px)\nPieceScale:{PieceScale:0.00}\nKeys: G grid, M markers, F3 debug, +/- lum, D frac+, R frac-, Shift+Y offset, Shift+Plus/- piece size";
+            DebugInfo = $"Detect:{status} X:{GridXs?.Count ?? 0} Y:{GridYs?.Count ?? 0}\nLumTh:{LineLumThreshold} FracTh:{LineFractionThreshold:0.00}\nCellW:{cellW:0.0} CellH:{cellH:0.0}\nGridYOffsetCells:{GridYOffsetCells} ({yOffsetPx:0.0}px)\nPieceScale:{PieceScale:0.00}\nActive:{CoreBoard.ActivePlayer}\nLast:{LastActionMessage}\nKeys: G grid, M markers, F3 debug, +/- lum, D frac+, R frac-, Shift+Y offset, Shift+Plus/- piece size";
             if (SelectedPiece != null)
             {
                 DebugInfo += $"\nSelected: {SelectedPiece.Code} {(SelectedPiece.IsRed?"Red":"Blue")} @ {SelectedPiece.X},{SelectedPiece.Y} Moves:{LegalMoves.Count}";
