@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class AntiAircraftGun : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.AntiAircraftGun;
-    public override Player Color { get; }
-
-    public AntiAircraftGun(Player color)
+    public class AntiAircraftGun : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        AntiAircraftGun copy = new AntiAircraftGun(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public AntiAircraftGun(Player color) : base(PieceType.AntiAircraftGun, color)
+        {
+        }
     }
 }

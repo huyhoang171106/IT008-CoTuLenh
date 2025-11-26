@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class AirForce : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.AirForce;
-    public override Player Color { get; }
-
-    public AirForce(Player color)
+    public class AirForce : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        AirForce copy = new AirForce(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public AirForce(Player color) : base(PieceType.AirForce, color)
+        {
+        }
     }
 }

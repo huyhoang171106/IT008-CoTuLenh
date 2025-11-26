@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class Artillery : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.Artillery;
-    public override Player Color { get; }
-
-    public Artillery(Player color)
+    public class Artillery : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        Artillery copy = new Artillery(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public Artillery(Player color) : base(PieceType.Artillery, color)
+        {
+        }
     }
 }
