@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class Commander : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.Commander;
-    public override Player Color { get; }
-
-    public Commander(Player color)
+    public class Commander : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        Commander copy = new Commander(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public Commander(Player color) : base(PieceType.Commander, color)
+        {
+        }
     }
 }

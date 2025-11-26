@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class Navy : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.Navy;
-    public override Player Color { get; }
-
-    public Navy(Player color)
+    public class Navy : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        Navy copy = new Navy(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public Navy(Player color) : base(PieceType.Navy, color)
+        {
+        }
     }
 }

@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class Militia : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.Militia;
-    public override Player Color { get; }
-
-    public Militia(Player color)
+    public class Militia : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        Militia copy = new Militia(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public Militia(Player color) : base(PieceType.Militia, color)
+        {
+        }
     }
 }

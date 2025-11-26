@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class Engineer : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.Engineer;
-    public override Player Color { get; }
-
-    public Engineer(Player color)
+    public class Engineer : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        Engineer copy = new Engineer(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public Engineer(Player color) : base(PieceType.Engineer, color)
+        {
+        }
     }
 }

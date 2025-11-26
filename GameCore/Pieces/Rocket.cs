@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class Rocket : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.Rocket;
-    public override Player Color { get; }
-
-    public Rocket(Player color)
+    public class Rocket : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        Rocket copy = new Rocket(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public Rocket(Player color) : base(PieceType.Rocket, color)
+        {
+        }
     }
 }

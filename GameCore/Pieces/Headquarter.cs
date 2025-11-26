@@ -1,19 +1,10 @@
-﻿namespace GameCore;
-
-public class Headquarter : Piece
+﻿namespace GameCore
 {
-    public override PieceType Type => PieceType.Headquarter;
-    public override Player Color { get; }
-
-    public Headquarter(Player color)
+    public class Headquarter : Piece
     {
-        Color = color;
-    }
-
-    public override Piece Copy()
-    {
-        Headquarter copy = new Headquarter(Color);
-        copy.HasMoved = HasMoved;
-        return copy;
+        // Constructor chỉ việc gọi về base cha là đủ
+        public Headquarter(Player color) : base(PieceType.Headquarter, color)
+        {
+        }
     }
 }
